@@ -1,8 +1,9 @@
 # ADAPTED from https://github.com/stefantaubert/pinyin-to-ipa/blob/master/src/pinyin_to_ipa/transcription.py
 # Original License: MIT
 import itertools
-from typing import Dict, Generator, List, Optional, Set, Tuple
+from typing import Dict, Generator, List, Optional, Tuple
 
+from ordered_set import OrderedSet
 from pypinyin.contrib.tone_convert import to_finals, to_initials, to_normal, to_tone3
 
 # References:
@@ -237,20 +238,20 @@ def apply_tone(variants: List[Tuple[str, ...]], tone: int) -> Generator[Tuple[st
    )
 
 
-def pinyin_to_ipa(pinyin: str) -> Set[Tuple[str, ...]]:
+def pinyin_to_ipa(pinyin: str) -> OrderedSet[Tuple[str, ...]]:
   tone_nr = get_tone(pinyin)
   pinyin_normal = to_normal(pinyin)
 
   interjection = get_interjection(pinyin_normal)
   if interjection is not None:
     interjection_ipa_mapping = INTERJECTION_MAPPINGS[pinyin_normal]
-    interjection_ipa = set(apply_tone(interjection_ipa_mapping, tone_nr))
+    interjection_ipa = OrderedSet(apply_tone(interjection_ipa_mapping, tone_nr))
     return interjection_ipa
 
   syllabic_consonant = get_syllabic_consonant(pinyin_normal)
   if syllabic_consonant is not None:
     syllabic_consonant_ipa_mapping = SYLLABIC_CONSONANT_MAPPINGS[syllabic_consonant]
-    syllabic_consonant_ipa = set(apply_tone(syllabic_consonant_ipa_mapping, tone_nr))
+    syllabic_consonant_ipa = OrderedSet(apply_tone(syllabic_consonant_ipa_mapping, tone_nr))
     return syllabic_consonant_ipa
 
   parts = []
@@ -275,7 +276,7 @@ def pinyin_to_ipa(pinyin: str) -> Set[Tuple[str, ...]]:
 
   assert len(parts) >= 1
 
-  all_syllable_combinations = set(
+  all_syllable_combinations = OrderedSet(
     tuple(itertools.chain.from_iterable(combination))
     for combination in itertools.product(*parts)
   )
