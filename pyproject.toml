@@ -18,18 +18,19 @@ classifiers = [
 requires-python = ">=3.8, <3.14"
 dependencies = [
     "addict",
-    "pip>=25.0.1", 
+    "ordered-set>=4.1.0",
+    "pip>=25.0.1",
     # ^ Spacy needs pip within Python, uv lacks pip by default
     "regex",
 ]
 
 [project.optional-dependencies]
 en = ["num2words", "spacy", "spacy-curated-transformers", "phonemizer-fork", "espeakng-loader", "torch", "transformers"]
-ja = ["fugashi", "jaconv", "mojimoji", "unidic", "pyopenjtalk"]
-ko = ["jamo", "nltk"]
+# ja = ["fugashi", "jaconv", "mojimoji", "unidic", "pyopenjtalk"]
+# ko = ["jamo", "nltk"]
 zh = ["jieba", "ordered-set", "pypinyin", "cn2an", "pypinyin-dict"]
-vi = ["num2words", "spacy", "spacy-curated-transformers", "underthesea"]
-he = ["mishkal-hebrew>=0.3.2"]
+# vi = ["num2words", "spacy", "spacy-curated-transformers", "underthesea"]
+# he = ["mishkal-hebrew>=0.3.2"]
 
 [build-system]
 requires = ["hatchling"]
